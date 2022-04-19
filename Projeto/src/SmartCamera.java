@@ -6,11 +6,11 @@ public class SmartCamera extends SmartDevice {
     private double fileSize;
     private double dailyConsumption;
 
-    public SmartCamera(String factoryID, int resolution, double fileSize,double dailyConsumption) {
+    public SmartCamera(String factoryID, int resolution, double fileSize) {
         super(factoryID);
         this.resolution = resolution;
         this.fileSize = fileSize;
-        this.dailyConsumption=dailyConsumption;
+        this.dailyConsumption=resolution*fileSize;
     }
     public SmartCamera(String factoryID) {
         super(factoryID);

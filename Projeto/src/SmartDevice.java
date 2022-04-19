@@ -1,5 +1,5 @@
 import java.lang.String;
-public class SmartDevice {
+public abstract class SmartDevice {
     private String factoryID;
 
     public SmartDevice(String factoryID) {

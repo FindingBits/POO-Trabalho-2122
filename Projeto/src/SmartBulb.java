@@ -18,12 +18,18 @@ public class SmartBulb extends SmartDevice{
     private int dimension;
     private double dailyConsumption;
 
-    public SmartBulb(String factoryID,Status status, LightMode mode, int dimension, double dailyConsumption) {
+    public SmartBulb(String factoryID,Status status, LightMode mode, int dimension) {
         super(factoryID);
         this.status = status;
         this.mode = mode;
         this.dimension = dimension;
-        this.dailyConsumption = dailyConsumption;
+        this.dailyConsumption = 0;
+        // dailyConsumption = (watt) * mm2 (mm square) * energyPrice watt/h / 10 *
+        switch(mode){
+            case WARM:
+                // 15w WARM
+                //this.dailyConsumption = 15*((dimension/10)
+        }
     }
     public SmartBulb(String factoryID) {
         super(factoryID);
