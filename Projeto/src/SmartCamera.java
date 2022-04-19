@@ -1,7 +1,7 @@
 import java.util.Objects;
 import java.lang.String;
 
-public abstract class SmartCamera extends SmartDevice {
+public class SmartCamera extends SmartDevice {
     private int resolution;
     private double fileSize;
     private double dailyConsumption;

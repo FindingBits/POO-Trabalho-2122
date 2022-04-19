@@ -1,7 +1,7 @@
 import java.lang.String;
 import java.util.Objects;
 
-public abstract class SmartBulb extends SmartDevice{
+public class SmartBulb extends SmartDevice{
 
     private enum Status {
         OFF,

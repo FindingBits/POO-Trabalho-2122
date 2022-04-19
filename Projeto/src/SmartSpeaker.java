@@ -1,18 +1,18 @@
 import java.util.Objects;
 import java.lang.String;
 
-public abstract class SmartSpeaker extends SmartDevice {
+public class SmartSpeaker extends SmartDevice {
     private int volume;
     private String radio;
     private String brand;
     private double dailyConsumption;
 
-    public SmartSpeaker(String factoryID, int volume, String radio, String brand, double dailyConsumption) {
+    public SmartSpeaker(String factoryID, int volume, String radio, String brand) {
         super(factoryID);
         this.volume = volume;
         this.radio = radio;
         this.brand = brand;
-        this.dailyConsumption = dailyConsumption;
+        this.dailyConsumption = 0;
     }
     public SmartSpeaker(String factoryID) {
         super(factoryID);
@@ -26,7 +26,7 @@ public abstract class SmartSpeaker extends SmartDevice {
         this.volume = smart.getVolume();
         this.radio = smart.getRadio();
         this.brand = smart.getBrand();
-        this.dailyConsumption = smart.getDailyConsumption();
+        this.dailyConsumption = 0;
     }
 
     public int getVolume() {
