@@ -61,6 +61,7 @@ public class SmartSpeaker extends SmartDevice {
         this.dailyConsumption = dailyConsumption;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -68,10 +69,12 @@ public class SmartSpeaker extends SmartDevice {
         return volume == that.volume && Double.compare(that.dailyConsumption, dailyConsumption) == 0 && Objects.equals(radio, that.radio) && Objects.equals(brand, that.brand);
     }
 
+    @Override
     public int hashCode() {
         return Objects.hash(volume, radio, brand, dailyConsumption);
     }
 
+    @Override
     public String toString() {
         return "SmartSpeaker{" +
                 "device={" + super.toString() + "},"+
@@ -81,4 +84,9 @@ public class SmartSpeaker extends SmartDevice {
                 ", dailyConsumption=" + dailyConsumption +
                 '}';
     }
+    @Override
+    public SmartSpeaker clone(){
+        return new SmartSpeaker(this);
+    }
+
 }

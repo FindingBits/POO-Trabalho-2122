@@ -1,7 +1,7 @@
 import java.lang.String;
 import java.util.Objects;
 
-public abstract class SmartDevice {
+public class SmartDevice {
     public enum Status {
         OFF,
         ON
@@ -14,6 +14,11 @@ public abstract class SmartDevice {
         this.factoryID = factoryID;
         this.mCost = mCost;
         this.status = status;
+    }
+    public SmartDevice(SmartDevice device) {
+        this.factoryID = device.getFactoryID();
+        this.mCost = device.getMCost();
+        this.status = device.getStatus();
     }
 
     public String getFactoryID() {
@@ -68,4 +73,11 @@ public abstract class SmartDevice {
     public int hashCode() {
         return Objects.hash(factoryID, mCost, status);
     }
+
+    public SmartDevice clone(){
+        return new SmartDevice(this);
+    }
+
+
+
 }

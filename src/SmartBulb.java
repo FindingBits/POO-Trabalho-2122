@@ -61,17 +61,19 @@ public class SmartBulb extends SmartDevice{
         this.dailyConsumption = dailyConsumption;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SmartBulb smartBulb = (SmartBulb) o;
         return dimension == smartBulb.dimension && Double.compare(smartBulb.dailyConsumption, dailyConsumption) == 0  && mode == smartBulb.mode;
     }
-
+    @Override
     public int hashCode() {
         return Objects.hash( mode, dimension, dailyConsumption);
     }
 
+    @Override
     public String toString() {
         return "SmartBulb{" +
                 "device={" + super.toString() + "},"+
@@ -80,4 +82,10 @@ public class SmartBulb extends SmartDevice{
                 ", dailyConsumption=" + dailyConsumption +
                 '}';
     }
+
+    @Override
+    public SmartBulb clone(){
+        return new SmartBulb(this);
+    }
+
 }

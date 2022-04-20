@@ -1,17 +1,10 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 public class Casa{
     private String owner;
     private int NIF;
     HashMap<String, ArrayList<SmartDevice>> divisions;
 
-    public Casa(String owner, int NIF, HashMap<String, ArrayList<SmartDevice>> divisions) {
-        this.owner = owner;
-        this.NIF = NIF;
-        this.divisions = divisions;
-    }
     public Casa(String owner, int NIF) {
         this.owner = owner;
         this.NIF = NIF;
@@ -73,6 +66,37 @@ public class Casa{
                 '}';
     }
 
+    public void addDivision(String division) throws DivisionExistsExeption{
+        for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()){
+            if(Objects.equals(entry.getKey(),division)){
+                throw new DivisionExistsExeption("Division already exists! Division: "+division);
+            }
+        }
+        divisions.put(division,new ArrayList<SmartDevice>());
+    }
+
+    public void addDevice(String division,SmartDevice device) throws DeviceExistsInDivision{
+        for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()) {
+            for (int i = 0; i < entry.getValue().size(); i++) {
+                if (Objects.equals(entry.getValue().get(i).getFactoryID(), device.getFactoryID()))
+                    throw new DeviceExistsInDivision("Device already exists in Division!: "+device);
+            }
+        }
+        for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()){
+            if (Objects.equals(entry.getKey(), division))
+                entry.getValue().add(device.clone());
+        }
+
+    }
+
+    public void getAllDevices(){
+        for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()){
+            for (int i = 0; i < entry.getValue().size(); i++){
+                System.out.println(entry.getValue().get(i));
+            }
+        }
+    }
+
     public void turnAllON(){
         for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()){
             for (int i = 0; i < entry.getValue().size(); i++){
@@ -103,6 +127,16 @@ public class Casa{
                     SmartDevice.turnOFF(entry.getValue().get(i));
             }
         }
+    }
+
+    public int numberOfDivices(){
+        int devices=0;
+        for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()) {
+            for (int i = 0; i < entry.getValue().size(); i++) {
+                devices+=1;
+            }
+        }
+        return devices;
     }
 
 

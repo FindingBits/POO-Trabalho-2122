@@ -49,17 +49,19 @@ public class SmartCamera extends SmartDevice {
         this.fileSize = fileSize;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SmartCamera that = (SmartCamera) o;
         return resolution == that.resolution && Double.compare(that.fileSize, fileSize) == 0;
     }
-
+    @Override
     public int hashCode() {
         return Objects.hash(resolution, fileSize);
     }
 
+    @Override
     public String toString() {
         return "SmartCamera{" +
                 "device={" + super.toString() + "},"+
@@ -68,5 +70,12 @@ public class SmartCamera extends SmartDevice {
                 ", dailyConsumption=" + dailyConsumption +
                 '}';
     }
+
+    @Override
+    public SmartCamera clone(){
+        return new SmartCamera(this);
+    }
+
+
 
 }
