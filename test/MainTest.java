@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class MainTest {
     @Test
-    public void testNumberDevices() throws DivisionExistsExeption, DeviceExistsInDivision, CloneNotSupportedException {
+    public void testNumberDevices() throws DivisionExistsExeption, DeviceExistsInDivision {
         SmartSpeaker speaker = new SmartSpeaker("ABC",10.0,SmartDevice.Status.ON,50,"RFM","Sony");
         SmartBulb light = new SmartBulb("CBA",5.0, SmartDevice.Status.ON, SmartBulb.LightMode.WARM,10);
         SmartCamera camera = new SmartCamera("BAC",30.0,SmartDevice.Status.ON,720,20.0);
