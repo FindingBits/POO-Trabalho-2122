@@ -7,22 +7,22 @@ public class SmartSpeaker extends SmartDevice {
     private String brand;
     private double dailyConsumption;
 
-    public SmartSpeaker(String factoryID, int volume, String radio, String brand) {
-        super(factoryID);
+    public SmartSpeaker(String factoryID,double mCost,Status status, int volume, String radio, String brand) {
+        super(factoryID,mCost,status);
         this.volume = volume;
         this.radio = radio;
         this.brand = brand;
         this.dailyConsumption = 0;
     }
-    public SmartSpeaker(String factoryID) {
-        super(factoryID);
+    public SmartSpeaker(String factoryID,double mCost,Status status) {
+        super(factoryID,mCost,status);
         this.volume = 0;
         this.radio = "108.0 Mhz";
         this.brand = "n/a";
         this.dailyConsumption = 0;
     }
     public SmartSpeaker(SmartSpeaker smart) {
-        super(smart.getFactoryID());
+        super(smart.getFactoryID(), smart.getMCost(),smart.getStatus());
         this.volume = smart.getVolume();
         this.radio = smart.getRadio();
         this.brand = smart.getBrand();
@@ -74,6 +74,7 @@ public class SmartSpeaker extends SmartDevice {
 
     public String toString() {
         return "SmartSpeaker{" +
+                "device={" + super.toString() + "},"+
                 "volume=" + volume +
                 ", radio='" + radio + '\'' +
                 ", brand='" + brand + '\'' +
