@@ -25,6 +25,14 @@ public class SmartCamera extends SmartDevice {
         this.dailyConsumption=smart.getFileSize()*smart.getResolution();
     }
 
+    public double getDailyConsumption() {
+        return dailyConsumption;
+    }
+
+    public void setDailyConsumption(double dailyConsumption) {
+        this.dailyConsumption = dailyConsumption;
+    }
+
     public int getResolution() {
         return resolution;
     }
@@ -57,6 +65,7 @@ public class SmartCamera extends SmartDevice {
                 "device={" + super.toString() + "},"+
                 "resolution=" + resolution +
                 ", fileSize=" + fileSize +
+                ", dailyConsumption=" + dailyConsumption +
                 '}';
     }
 
