@@ -19,7 +19,6 @@ public class MainTest {
         home.addDevice("Sala",speaker);
         home.addDevice("Sala",light);
         home.addDevice("Sala",camera);
-        home.getAllDevices();
         assertEquals(3,home.numberOfDevices(),"Incorrect number of devices");
     }
     @Test
@@ -40,7 +39,6 @@ public class MainTest {
         home.addDevice("Sala",speaker);
         home.addDevice("Sala",light);
         home.addDevice("Sala",camera);
-        home.getAllDevices();
         sleep(1000);
         home.turnAllOFF();
         home.getAllTimeON();

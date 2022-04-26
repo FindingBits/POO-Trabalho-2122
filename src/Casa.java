@@ -91,14 +91,31 @@ public class Casa{
 
     /**
      * Gets all the devices in the home
-     *
+     * @return All SmartDevices in the home
      */
-    public void getAllDevices(){
+    public ArrayList<SmartDevice> getAllDevices(){
+        ArrayList<SmartDevice> devices=new ArrayList<SmartDevice>();
         for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()){
             for (int i = 0; i < entry.getValue().size(); i++){
-                System.out.println(entry.getValue().get(i));
+                devices.add(entry.getValue().get(i).clone());
             }
         }
+        return devices;
+    }
+
+    /**
+     * Gets a device in the home
+     * @return Desired SmartDevice in the home
+     * @throws DeviceExistsInDivision Device doesn't exist in the home
+     */
+    public SmartDevice getDevice(String FactoryID) throws DeviceExistsInDivision{
+        for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()){
+            for (int i = 0; i < entry.getValue().size(); i++){
+                if(Objects.equals(entry.getValue().get(i).getFactoryID(),FactoryID))
+                    return (entry.getValue().get(i).clone());
+            }
+        }
+        throw new DeviceExistsInDivision("Device doesn't exist in the home!");
     }
 
     public void getAllTimeON(){

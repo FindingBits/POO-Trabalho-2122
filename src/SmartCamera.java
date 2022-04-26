@@ -10,19 +10,19 @@ public class SmartCamera extends SmartDevice {
         super(factoryID,mCost,status);
         this.resolution = resolution;
         this.fileSize = fileSize;
-        this.dailyConsumption=(double)resolution*fileSize/10000;
+        this.dailyConsumption=(double)resolution*fileSize/1000;
     }
     public SmartCamera(String factoryID,double mCost,Status status) {
         super(factoryID,mCost,status);
         this.resolution = 720;
         this.fileSize = 10;
-        this.dailyConsumption=(double)this.getFileSize()*this.getResolution()/10000;
+        this.dailyConsumption=(double)this.getFileSize()*this.getResolution()/1000;
     }
     public SmartCamera(SmartCamera smart) {
         super(smart.getFactoryID(), smart.getMCost(),smart.getStatus());
         this.resolution = smart.getResolution();
         this.fileSize = smart.getFileSize();
-        this.dailyConsumption=(double)smart.getFileSize()*smart.getResolution()/10000;
+        this.dailyConsumption=(double)smart.getFileSize()*smart.getResolution()/1000;
     }
 
     public double getDailyConsumption() {

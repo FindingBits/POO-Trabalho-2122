@@ -17,15 +17,15 @@ public class SmartBulb extends SmartDevice{
         switch(mode){
             case WARM:
                 // 15w WARM
-                aux = (double)(15*(dimension*dimension))/10000;
+                aux = (double)(15*(dimension*dimension))/1000;
                 break;
             case COLD:
                 // 20w COLD
-                aux = (double)(20*(dimension*dimension))/10000;
+                aux = (double)(20*(dimension*dimension))/1000;
                 break;
             case NEUTRAL:
                 // 10w NEUTRAL
-                aux = (double)(10*(dimension*dimension))/10000;
+                aux = (double)(10*(dimension*dimension))/1000;
                 break;
         }
         return aux;

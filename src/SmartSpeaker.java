@@ -12,19 +12,19 @@ public class SmartSpeaker extends SmartDevice {
         switch(brand){
             case "Sony":
                 // 150w
-                aux = (double)(15*(150))/1000;
+                aux = (double)(15*(150))/100;
                 break;
             case "Bose":
                 // 200w
-                aux = (double)(20*(200))/1000;
+                aux = (double)(20*(200))/100;
                 break;
             case "Bang&Olufsen":
                 // 300w
-                aux = (double)(10*(300))/1000;
+                aux = (double)(10*(300))/100;
                 break;
             default:
                 // 50w cheap speaker :D
-                aux = (double)(10*(50))/1000;
+                aux = (double)(10*(50))/100;
                 break;
         }
         return aux;
