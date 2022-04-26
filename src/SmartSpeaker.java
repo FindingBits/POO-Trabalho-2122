@@ -7,26 +7,50 @@ public class SmartSpeaker extends SmartDevice {
     private String brand;
     private double dailyConsumption;
 
+    private double auxConsumption(String brand){
+        double aux=0;
+        switch(brand){
+            case "Sony":
+                // 150w
+                aux = (double)(15*(150))/1000;
+                break;
+            case "Bose":
+                // 200w
+                aux = (double)(20*(200))/1000;
+                break;
+            case "Bang&Olufsen":
+                // 300w
+                aux = (double)(10*(300))/1000;
+                break;
+            default:
+                // 50w cheap speaker :D
+                aux = (double)(10*(50))/1000;
+                break;
+        }
+        return aux;
+
+    }
+
     public SmartSpeaker(String factoryID,double mCost,Status status, int volume, String radio, String brand) {
         super(factoryID,mCost,status);
         this.volume = volume;
         this.radio = radio;
         this.brand = brand;
-        this.dailyConsumption = 0;
+        this.dailyConsumption = auxConsumption(brand);
     }
     public SmartSpeaker(String factoryID,double mCost,Status status) {
         super(factoryID,mCost,status);
         this.volume = 0;
         this.radio = "108.0 Mhz";
         this.brand = "n/a";
-        this.dailyConsumption = 0;
+        this.dailyConsumption = auxConsumption(this.brand);
     }
     public SmartSpeaker(SmartSpeaker smart) {
         super(smart.getFactoryID(), smart.getMCost(),smart.getStatus());
         this.volume = smart.getVolume();
         this.radio = smart.getRadio();
         this.brand = smart.getBrand();
-        this.dailyConsumption = 0;
+        this.dailyConsumption = auxConsumption(smart.getBrand());
     }
 
     public int getVolume() {

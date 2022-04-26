@@ -12,23 +12,38 @@ public class SmartBulb extends SmartDevice{
     private int dimension;
     private double dailyConsumption;
 
+    private double auxConsumption(LightMode mode){
+        double aux=0;
+        switch(mode){
+            case WARM:
+                // 15w WARM
+                aux = (double)(15*(dimension*dimension))/10000;
+                break;
+            case COLD:
+                // 20w COLD
+                aux = (double)(20*(dimension*dimension))/10000;
+                break;
+            case NEUTRAL:
+                // 10w NEUTRAL
+                aux = (double)(10*(dimension*dimension))/10000;
+                break;
+        }
+        return aux;
+
+    }
+
     public SmartBulb(String factoryID,double mCost,Status status, LightMode mode, int dimension) {
         super(factoryID,mCost,status);
         this.mode = mode;
         this.dimension = dimension;
-        this.dailyConsumption = 0;
-        // dailyConsumption = (watt) * mm2 (mm square) * energyPrice watt/h / 10 *
-        switch(mode){
-            case WARM:
-                // 15w WARM
-                //this.dailyConsumption = 15*((dimension/10)
-        }
+        this.dailyConsumption = auxConsumption(mode);
+
     }
     public SmartBulb(String factoryID,double mCost,Status status) {
         super(factoryID,mCost,status);
         this.mode = LightMode.NEUTRAL;
         this.dimension = 0;
-        this.dailyConsumption = 0;
+        this.dailyConsumption = auxConsumption(this.mode);
     }
     public SmartBulb(SmartBulb smart) {
         super(smart.getFactoryID(), smart.getMCost(),smart.getStatus());

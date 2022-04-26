@@ -101,6 +101,15 @@ public class Casa{
         }
     }
 
+    public void getAllTimeON(){
+        for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()){
+            for (int i = 0; i < entry.getValue().size(); i++){
+                System.out.println(entry.getValue().get(i).getFactoryID()+" -> "+entry.getValue().get(i).getTimeElapsed());
+            }
+        }
+    }
+    
+
     public void turnAllON(){
         for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()){
             for (int i = 0; i < entry.getValue().size(); i++){
@@ -137,7 +146,7 @@ public class Casa{
      * Gets the number of SmartDevices in the home.
      * @return number of SmartDevices in the home
      */
-    public int numberOfDivices(){
+    public int numberOfDevices(){
         int devices=0;
         for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()) {
             for (int i = 0; i < entry.getValue().size(); i++) {

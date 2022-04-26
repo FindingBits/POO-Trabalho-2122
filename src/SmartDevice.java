@@ -9,16 +9,51 @@ public class SmartDevice {
     private String factoryID;
     private double mCost;
     private Status status;
+    protected long start;
+    protected long finish;
+    protected long timeElapsed;
 
     public SmartDevice(String factoryID,double mCost,Status status) {
         this.factoryID = factoryID;
         this.mCost = mCost;
         this.status = status;
+        if(Objects.equals(status,Status.ON)) this.start=System.currentTimeMillis();
+        else this.start=0;
+        this.finish=0;
+        this.timeElapsed=0;
     }
     public SmartDevice(SmartDevice device) {
         this.factoryID = device.getFactoryID();
         this.mCost = device.getMCost();
         this.status = device.getStatus();
+        if(Objects.equals(device.getStatus(),Status.ON)) this.start=System.currentTimeMillis();
+        else this.start=0;
+        this.finish=0;
+        this.timeElapsed=0;
+    }
+
+    public long getStart() {
+        return start;
+    }
+
+    public void setStart(long start) {
+        this.start = start;
+    }
+
+    public long getFinish() {
+        return finish;
+    }
+
+    public void setFinish(long finish) {
+        this.finish = finish;
+    }
+
+    public long getTimeElapsed() {
+        return timeElapsed;
+    }
+
+    public void setTimeElapsed(long timeElapsed) {
+        this.timeElapsed = timeElapsed;
     }
 
     public String getFactoryID() {
@@ -48,11 +83,14 @@ public class SmartDevice {
     public static void turnON(SmartDevice device){
         if(device.getStatus()==SmartDevice.Status.OFF){
             device.setStatus(SmartDevice.Status.ON);
+            device.setStart(System.currentTimeMillis());
         }
     }
     public static void turnOFF(SmartDevice device){
         if(device.getStatus()==SmartDevice.Status.ON){
             device.setStatus(SmartDevice.Status.OFF);
+            device.setFinish(System.currentTimeMillis());
+            device.setTimeElapsed(device.getFinish()-device.getStart());
         }
     }
     public String toString() {
