@@ -2,61 +2,59 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class FornecedorEnergia {
-    private String empresa;
-    private double custoDiarioEnergia;
-    private double Imposto;
-    private ArrayList<Casa> casas;
+    private String company;
+    private double dailyEnergyCost;
+    private double tax;
+    private ArrayList<Casa> houses;
 
-    // gets e sets
-
-    public String getEmpresa() {
-        return empresa;
+    public String getCompany() {
+        return company;
     }
 
-    public void setEmpresa(String empresa) {
-        this.empresa = empresa;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
-    public double getCustoDiarioEnergia() {
-        return custoDiarioEnergia;
+    public double getDailyEnergyCost() {
+        return dailyEnergyCost;
     }
 
-    public void setCustoDiarioEnergia(double custoDiarioEnergia) {
-        this.custoDiarioEnergia = custoDiarioEnergia;
+    public void setDailyEnergyCost(double dailyEnergyCost) {
+        this.dailyEnergyCost = dailyEnergyCost;
     }
 
-    public double getImposto() {
-        return Imposto;
+    public double getTax() {
+        return tax;
     }
 
-    public void setImposto(double imposto) {
-        Imposto = imposto;
+    public void setTax(double tax) {
+        tax = tax;
     }
 
-    public void setCasas(ArrayList<Casa> casas) {
-        this.casas = casas;
+    public void setHouses(ArrayList<Casa> houses) {
+        this.houses = houses;
     }
 
-    public ArrayList<Casa> getCasas() {
-        return casas;
+    public ArrayList<Casa> getHouses() {
+        return houses;
     }
 
     public FornecedorEnergia(){
-        this.setEmpresa("");
-        this.setCustoDiarioEnergia(0);
-        this.setImposto(0);
-        this.setCasas(new ArrayList<Casa>());
+        this.setCompany("");
+        this.setDailyEnergyCost(0);
+        this.setTax(0);
+        this.setHouses(new ArrayList<Casa>());
     }
 
-    public FornecedorEnergia(String empresa, double custo, double imposto, ArrayList<Casa> casas){
-        this.setEmpresa(empresa);
-        this.setCustoDiarioEnergia(custo);
-        this.setImposto(imposto);
-        this.setCasas(new ArrayList<Casa>(casas));
+    public FornecedorEnergia(String company, double custo, double tax, ArrayList<Casa> houses){
+        this.setCompany(company);
+        this.setDailyEnergyCost(custo);
+        this.setTax(tax);
+        this.setHouses(new ArrayList<Casa>(houses));
     }
 
     public FornecedorEnergia(FornecedorEnergia fe){
-        this(fe.getEmpresa(), fe.getCustoDiarioEnergia(), fe.getImposto(),fe.getCasas());
+        this(fe.getCompany(), fe.getDailyEnergyCost(), fe.getTax(),fe.getHouses());
     }
 
     public boolean equals(Object o){
@@ -67,44 +65,46 @@ public class FornecedorEnergia {
             return false;
         }
         FornecedorEnergia fe = (FornecedorEnergia) o;
-        return (this.empresa.equals(fe.empresa) && Objects.equals(this.custoDiarioEnergia,fe.custoDiarioEnergia) && Objects.equals(this.Imposto,fe.Imposto));
+        return (this.company.equals(fe.company) && Objects.equals(this.dailyEnergyCost,fe.dailyEnergyCost) && Objects.equals(this.tax,fe.tax));
     }
 
     public FornecedorEnergia clone(){
         return new FornecedorEnergia(this);
     }
 
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("Nome da Empresa: " + this.empresa);
-        sb.append("\nValor base do custo diario: " + this.custoDiarioEnergia);
-        sb.append("\nImposto: " + this.Imposto);
-        return sb.toString();
+    @Override
+    public String toString() {
+        return "FornecedorEnergia{" +
+                "company='" + company + '\'' +
+                ", dailyEnergyCost=" + dailyEnergyCost +
+                ", tax=" + tax +
+                ", houses=" + houses +
+                '}';
     }
 
-    public double custoBaseDiaCasa(int index){
+    public double custoBaseDiaCasa(int index) throws HouseNotFoundException{
         double total = 0;
-        if (index < this.casas.size()){
-            total = getCustoDiarioEnergia() * this.casas.get(index).getConsumption();
+        if (index < this.houses.size()){
+            return getDailyEnergyCost() * this.houses.get(index).getTotalConsumption();
+        }
+        throw new HouseNotFoundException("House does not exist!");
+    }
+
+    public double custoTotalDiaCasa(int index) throws HouseNotFoundException {
+        double total = 0;
+        if (index < this.houses.size()){
+            total = custoBaseDiaCasa(index) * (1 + this.getTax());
         }
         return total;
     }
 
-    public double custoTotalDiaCasa(int index){
+    public double PrecoDiaPorDispositivo(SmartDevice device) throws DeviceExistsInDivision {
         double total = 0;
-        if (index < this.casas.size()){
-            total = custoBaseDiaCasa(index) * (1 + this.getImposto());
-        }
-        return total;
-    }
-
-    public double PrecoDiaPorDispositivo(String dispositivo){
-        double total = 0;
-        for (Casa c: this.casas){
-            if(c.getDevice == dispositivo){
-                total += c.getDeviceConsumption() * this.getCustoDiarioEnergia() * (1 + getImposto());
+        for (Casa c: this.houses){
+            if(Objects.equals(c.getDevice(device.getFactoryID()).getFactoryID(), device.getFactoryID())){
+                return c.getDeviceConsumption() * this.getDailyEnergyCost() * (1 + getTax());
             }
         }
-        return total;
+        throw new DeviceExistsInDivision("Device does not exist in the home!");
     }
 }
