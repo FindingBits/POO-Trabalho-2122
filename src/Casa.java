@@ -159,6 +159,16 @@ public class Casa{
         }
     }
 
+    public double getTotalConsumption() throws DeviceExistsInDivision {
+        double total=0;
+        for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()) {
+            for (int i = 0; i < entry.getValue().size(); i++) {
+                total+= this.getDevice(entry.getValue().get(i).getFactoryID());
+            }
+        }
+        return total;
+    }
+
     /**
      * Gets the number of SmartDevices in the home.
      * @return number of SmartDevices in the home

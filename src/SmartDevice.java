@@ -93,6 +93,8 @@ public class SmartDevice {
             device.setTimeElapsed(device.getFinish()-device.getStart());
         }
     }
+
+
     public String toString() {
         return "SmartDevice{" +
                 "factoryID='" + factoryID + '\'' +
