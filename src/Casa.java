@@ -163,7 +163,7 @@ public class Casa{
         double total=0;
         for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()) {
             for (int i = 0; i < entry.getValue().size(); i++) {
-                total+= this.getDevice(entry.getValue().get(i).getFactoryID());
+                total += this.getDevice(entry.getValue().get(i).getFactoryID()).getDailyConsumption();
             }
         }
         return total;

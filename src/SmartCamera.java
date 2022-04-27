@@ -4,7 +4,7 @@ import java.lang.String;
 public class SmartCamera extends SmartDevice {
     private int resolution;
     private double fileSize;
-    private double dailyConsumption;
+    protected double dailyConsumption;
 
     public SmartCamera(String factoryID,double mCost,Status status, int resolution, double fileSize) {
         super(factoryID,mCost,status);
@@ -25,6 +25,7 @@ public class SmartCamera extends SmartDevice {
         this.dailyConsumption=(double)smart.getFileSize()*smart.getResolution()/1000;
     }
 
+    @Override
     public double getDailyConsumption() {
         return dailyConsumption;
     }

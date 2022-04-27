@@ -77,6 +77,7 @@ public class SmartSpeaker extends SmartDevice {
         this.brand = brand;
     }
 
+    @Override
     public double getDailyConsumption() {
         return dailyConsumption;
     }

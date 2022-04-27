@@ -94,6 +94,10 @@ public class SmartDevice {
         }
     }
 
+    public double getDailyConsumption(){
+        return 0;
+    }
+
 
     public String toString() {
         return "SmartDevice{" +

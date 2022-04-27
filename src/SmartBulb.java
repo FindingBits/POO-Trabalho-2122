@@ -10,7 +10,7 @@ public class SmartBulb extends SmartDevice{
     }
     private LightMode mode;
     private int dimension;
-    private double dailyConsumption;
+    protected double dailyConsumption;
 
     private double auxConsumption(LightMode mode){
         double aux=0;
@@ -68,6 +68,7 @@ public class SmartBulb extends SmartDevice{
         this.dimension = dimension;
     }
 
+    @Override
     public double getDailyConsumption() {
         return dailyConsumption;
     }

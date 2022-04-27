@@ -42,5 +42,8 @@ public class MainTest {
         sleep(1000);
         home.turnAllOFF();
         home.getAllTimeON();
+        assertNotEquals(0,home.getTotalConsumption());
+        System.out.println(home.getTotalConsumption());
+
     }
 }
