@@ -41,7 +41,6 @@ public class MainTest {
         home.addDevice("Sala",camera);
         sleep(1000);
         home.turnAllOFF();
-        home.getAllTimeON();
         assertNotEquals(0,home.getTotalConsumption());
         System.out.println(home.getTotalConsumption());
 

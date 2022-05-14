@@ -118,13 +118,6 @@ public class Casa{
         throw new DeviceExistsInDivision("Device doesn't exist in the home!");
     }
 
-    public void getAllTimeON(){
-        for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()){
-            for (int i = 0; i < entry.getValue().size(); i++){
-                System.out.println(entry.getValue().get(i).getFactoryID()+" -> "+entry.getValue().get(i).getTimeElapsed());
-            }
-        }
-    }
     
 
     public void turnAllON(){
@@ -168,6 +161,8 @@ public class Casa{
         }
         return total;
     }
+
+
 
     /**
      * Gets the number of SmartDevices in the home.
