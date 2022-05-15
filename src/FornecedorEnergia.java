@@ -5,7 +5,6 @@ public class FornecedorEnergia {
     private String company;
     private double dailyEnergyCost;
     private double tax;
-    private ArrayList<Casa> houses;
 
     public String getCompany() {
         return company;
@@ -31,30 +30,21 @@ public class FornecedorEnergia {
         tax = tax;
     }
 
-    public void setHouses(ArrayList<Casa> houses) {
-        this.houses = houses;
-    }
-
-    public ArrayList<Casa> getHouses() {
-        return houses;
-    }
 
     public FornecedorEnergia(){
         this.setCompany("");
         this.setDailyEnergyCost(0);
         this.setTax(0);
-        this.setHouses(new ArrayList<Casa>());
     }
 
-    public FornecedorEnergia(String company, double custo, double tax, ArrayList<Casa> houses){
+    public FornecedorEnergia(String company, double custo, double tax){
         this.setCompany(company);
         this.setDailyEnergyCost(custo);
         this.setTax(tax);
-        this.setHouses(new ArrayList<Casa>(houses));
     }
 
     public FornecedorEnergia(FornecedorEnergia fe){
-        this(fe.getCompany(), fe.getDailyEnergyCost(), fe.getTax(),fe.getHouses());
+        this(fe.getCompany(), fe.getDailyEnergyCost(),fe.getTax());
     }
 
     public boolean equals(Object o){
@@ -78,10 +68,9 @@ public class FornecedorEnergia {
                 "company='" + company + '\'' +
                 ", dailyEnergyCost=" + dailyEnergyCost +
                 ", tax=" + tax +
-                ", houses=" + houses +
                 '}';
     }
-
+/*
     public double houseBaseDailyCost(int index) throws HouseNotFoundException, DeviceExistsInDivision {
         double total = 0;
         if (index < this.houses.size()){
@@ -100,7 +89,6 @@ public class FornecedorEnergia {
         }
         return total;
     }
-    /*
     public double PrecoDiaPorDispositivo(SmartDevice device) throws DeviceExistsInDivision {
         double total = 0;
         for (Casa c: this.houses){

@@ -4,24 +4,11 @@ import java.io.FileNotFoundException;
 
 
 public class Main {
-    public static void readFile(String path) {
-        try {
-            File myObj = new File(path);
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                System.out.println(data);
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("Could not read the file.");
-            e.printStackTrace();
-        }
-    }
-    public static void main(String[] args){
+    public static void main(String[] args) throws ParserException, DeviceExistsInDivision, DivisionExistsExeption {
         System.out.println("Trabalho de Grupo POO 2021/2022\n");
         String choice = null;
         Scanner scan = new Scanner(System.in);
+        Parser parser = new Parser();
         do {
             System.out.println("Digite um comando: ");
             choice = scan.nextLine();
@@ -31,14 +18,14 @@ public class Main {
                     break;
                 case "configDefault":
                     System.out.println("Usada a config default do grupo.\n");
-                    readFile("configs/default.txt");
+                    parser.parse("default.txt");
                     break;
                 case "configLoad":
                     System.out.println("Sera carregada uma config.\n");
-                    System.out.println("Insira o caminho do ficheiro: ");
+                    System.out.println("Insira o nome do ficheiro: ");
                     Scanner scanTemp = new Scanner(System.in);
                     String path = scanTemp.nextLine();
-                    readFile(path);
+                    parser.parse(path);
                     scanTemp.close();
                     break;
             } // end of switch

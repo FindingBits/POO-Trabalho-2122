@@ -3,24 +3,29 @@ import java.util.*;
 public class Casa{
     private String owner;
     private int NIF;
-    HashMap<String, ArrayList<SmartDevice>> divisions;
+    private HashMap<String, ArrayList<SmartDevice>> divisions;
+    private String provider;
 
-    public Casa(String owner, int NIF) {
+    public Casa(String owner, int NIF,String provider) {
         this.owner = owner;
         this.NIF = NIF;
         this.divisions = new HashMap<String, ArrayList<SmartDevice>>();
+        this.provider = provider;
     }
     public Casa(Casa home) {
         this.owner = home.getOwner();
         this.NIF = home.getNIF();
         this.divisions = home.getDivisions();
-    }
-    public Casa() {
-        this.owner = "n/a";
-        this.NIF = 999999999;
-        this.divisions = new HashMap<String, ArrayList<SmartDevice>>();
+        this.provider = home.getProvider();
     }
 
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
 
     public String getOwner() {
         return owner;
@@ -51,11 +56,11 @@ public class Casa{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Casa casa = (Casa) o;
-        return NIF == casa.NIF && Objects.equals(owner, casa.owner) && Objects.equals(divisions, casa.divisions);
+        return NIF == casa.NIF && Objects.equals(owner, casa.owner) && Objects.equals(provider, casa.provider) && Objects.equals(divisions, casa.divisions);
     }
 
     public int hashCode() {
-        return Objects.hash(owner, NIF, divisions);
+        return Objects.hash(owner, NIF, divisions,provider);
     }
 
     public String toString() {
@@ -63,6 +68,7 @@ public class Casa{
                 "owner='" + owner + '\'' +
                 ", NIF=" + NIF +
                 ", divisions=" + divisions +
+                ", provider=" + provider +
                 '}';
     }
 

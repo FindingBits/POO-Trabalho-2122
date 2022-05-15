@@ -9,7 +9,7 @@ public class SmartBulb extends SmartDevice{
         COLD
     }
     private LightMode mode;
-    private int dimension;
+    private double dimension;
     protected double dailyConsumption;
 
     private double auxConsumption(LightMode mode){
@@ -32,7 +32,7 @@ public class SmartBulb extends SmartDevice{
 
     }
 
-    public SmartBulb(String factoryID,double mCost,Status status, LightMode mode, int dimension) {
+    public SmartBulb(String factoryID,double mCost,Status status, LightMode mode, double dimension) {
         super(factoryID,mCost,status);
         this.mode = mode;
         this.dimension = dimension;
@@ -60,7 +60,7 @@ public class SmartBulb extends SmartDevice{
         this.mode = mode;
     }
 
-    public int getDimension() {
+    public double getDimension() {
         return dimension;
     }
 

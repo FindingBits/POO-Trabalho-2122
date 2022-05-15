@@ -1,6 +1,6 @@
-Fornecedor:EDP Comercial
-Fornecedor:Galp Energia
-Fornecedor:Iberdrola
+Fornecedor:EDP Comercial,0.23,0.24
+Fornecedor:Galp Energia,0.22,0.28
+Fornecedor:Iberdrola,0.21,0.22
 Casa:Joao Guedes,243746768,EDP Comercial
 Divisao:Sala
 SmartBulb:Warm,11,4.57
@@ -9,7 +9,7 @@ Divisao:Quarto
 SmartBulb:Warm,9,0.19
 SmartSpeaker:55,RFM,Sony,5.20
 Divisao:Garagem
-SmartCamera:(1280x720),79,4.41
+SmartCamera:720,79,4.41
 Casa:Catarina Quintas,165997485,Galp Energia
 Divisao:Sala de Jantar
 SmartBulb:Warm,11,4.57
@@ -18,7 +18,7 @@ Divisao:Quarto
 SmartBulb:Warm,9,0.19
 SmartSpeaker:35,MEGA HITS,JBL,5.53
 Divisao:Garagem
-SmartCamera:(1366x768),79,4.41
+SmartCamera:768,79,4.41
 Casa:Pedro Martins,132465978,Iberdrola
 Divisao:Sala de Jantar
 SmartBulb:Warm,11,4.57
@@ -26,6 +26,6 @@ SmartBulb:Neutral,12,4.73
 Divisao:Quarto
 SmartBulb:Warm,9,0.19
 SmartSpeaker:35,MEGA HITS,Sony,5.54
-SmartCamera:(1920x1080),69,6.58
+SmartCamera:1080,69,6.58
 Divisao:Garagem
-SmartCamera:(3840x2160),79,4.41
+SmartCamera:2160,79,4.41

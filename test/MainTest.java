@@ -14,7 +14,7 @@ public class MainTest {
         SmartBulb light = new SmartBulb("CBA",5.0, SmartDevice.Status.ON, SmartBulb.LightMode.WARM,10);
         SmartCamera camera = new SmartCamera("BAC",30.0,SmartDevice.Status.ON,720,20.0);
 
-        Casa home = new Casa("Joao",999999999);
+        Casa home = new Casa("Joao",999999999,"EDP");
         home.addDivision("Sala");
         home.addDevice("Sala",speaker);
         home.addDevice("Sala",light);
@@ -23,7 +23,7 @@ public class MainTest {
     }
     @Test
     public void testDivisionInHome() throws DivisionExistsExeption {
-        Casa home = new Casa("Joao",999999999);
+        Casa home = new Casa("Joao",999999999,"EDP");
         home.addDivision("Sala");
         assertTrue(home.getDivisions().containsKey("Sala"),"Incorrect room creation");
     }
@@ -34,7 +34,7 @@ public class MainTest {
         SmartBulb light = new SmartBulb("CBA",5.0, SmartDevice.Status.ON, SmartBulb.LightMode.WARM,10);
         SmartCamera camera = new SmartCamera("BAC",30.0,SmartDevice.Status.ON,720,20.0);
 
-        Casa home = new Casa("Joao",999999999);
+        Casa home = new Casa("Joao",999999999,"EDP");
         home.addDivision("Sala");
         home.addDevice("Sala",speaker);
         home.addDevice("Sala",light);
