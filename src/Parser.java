@@ -39,15 +39,38 @@ public class Parser {
 
     public Parser() {
         this.tempProviders = new ArrayList<FornecedorEnergia>();
+        this.tempHouses = new ArrayList<Casa>();
         this.FactoryIDs = new ArrayList<String>();
     }
 
-    public boolean addProvider(FornecedorEnergia tempProviders){
-        if(this.tempProviders.contains(tempProviders)){
+    public ArrayList<FornecedorEnergia> getTempProviders() {
+        return tempProviders;
+    }
+
+    public ArrayList<Casa> getTempHouses() {
+        return tempHouses;
+    }
+
+    public ArrayList<String> getFactoryIDs() {
+        return FactoryIDs;
+    }
+
+    public boolean addProvider(FornecedorEnergia provider){
+        if(this.tempProviders.contains(provider)){
             return true;
         }
         else{
-            this.tempProviders.add(tempProviders);
+            this.tempProviders.add(provider);
+            return false;
+        }
+
+    }
+    public boolean addHouse(Casa house){
+        if(this.tempHouses.contains(house)){
+            return true;
+        }
+        else{
+            this.tempHouses.add(house);
             return false;
         }
 
@@ -89,6 +112,9 @@ public class Parser {
                     addProvider(parseFornecedor(startLine[1]));
                     break;
                 case "Casa":
+                    if(currentHouse!=null){
+                        addHouse(currentHouse);
+                    }
                     currentHouse = parseCasa(startLine[1]);
                     break;
                 case "Divisao":
@@ -116,6 +142,9 @@ public class Parser {
             }
             counter+=1;
         }
+        if(currentHouse!=null){
+            addHouse(currentHouse);
+        }
         System.out.println("Import Completed!");
     }
 
@@ -139,7 +168,7 @@ public class Parser {
     public FornecedorEnergia parseFornecedor(String input) throws ParserException{
         try {
             String[] chunk = input.split(",");
-            return new FornecedorEnergia(chunk[0],Double.parseDouble(chunk[1]),Double.parseDouble(chunk[2]));
+            return new FornecedorEnergia(chunk[0],Double.parseDouble(chunk[2]),Double.parseDouble(chunk[1]));
         }
         catch(Exception e){ throw new ParserException("Inconsistent provider info, could not Parse!\nExtra information:"+e.toString()); }
 

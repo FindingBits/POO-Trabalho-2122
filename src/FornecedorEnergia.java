@@ -27,14 +27,7 @@ public class FornecedorEnergia {
     }
 
     public void setTax(double tax) {
-        tax = tax;
-    }
-
-
-    public FornecedorEnergia(){
-        this.setCompany("");
-        this.setDailyEnergyCost(0);
-        this.setTax(0);
+        this.tax = tax;
     }
 
     public FornecedorEnergia(String company, double custo, double tax){
