@@ -1,11 +1,13 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.Scanner;
 
 
 public class Main {
 
-    public static void main(String[] args) throws ParserException, DeviceExistsInDivision, DivisionExistsExeption {
+    public static void main(String[] args) throws ParserException, DeviceExistsInDivision, DivisionExistsExeption, IOException {
 
         Ambient ambient = new Ambient(Calendar.getInstance());
         Parser parser = new Parser();
@@ -25,10 +27,9 @@ public class Main {
                 case "configDefault":
                     System.out.println("Using the group default config file.");
 
-                    parser.parse("default.txt");
+                    parser.parse("configs/default.txt");
                     providers=parser.getTempProviders();
                     houses=parser.getTempHouses();
-
 
                     Scanner scanPostDefault = new Scanner(System.in);
                     String[] chunk;
@@ -63,16 +64,36 @@ public class Main {
                                 break;
                             case "generateInvoice":
                                 System.out.println("Generating invoice for: " + chunk[1] + " clients...");
+                                FornecedorEnergia forn=null;
+                                for (int i = 0; i < providers.size(); i++) {
+                                    if(Objects.equals(providers.get(i).getCompany(), chunk[1])){
+                                        forn=providers.get(i);
+                                        break;
+                                    }
+                                }
+                                if(forn==null){
+                                    System.out.println("Provider not found");
+                                }else{
+                                    for (int i = 0; i < houses.size(); i++) {
+                                        if(Objects.equals(houses.get(i).getProvider(), chunk[1])){
+                                            Invoice inv = new Invoice(ambient.getCalendar(),forn,houses.get(i));
+                                        }
+                                    }
+                                }
+                                break;
                             default:
                                 System.out.println("Invalid ambient Command!");
-                        } // end of switch
-                    } while (!chunk[0].equals("quit")); // end of loop
+                                break;
+                        }
+                    } while (!chunk[0].equals("quit"));
                     scanPostDefault.close();
+                    System.out.println("Exiting ambient...\n");
                     break;
                 default:
                     System.out.println("Invalid project Command!");
                     break;
             }
         } while (!choice.equals("quit"));
+        System.out.println("Exiting...\n");
     }
 }

@@ -1,0 +1,10 @@
+FATURA
+Codigo: C7ZQD
+EDP Comercial
+Exm(o)(a): Joao Guedes
+NIF: 243746768
+Custo diario energetico: 0.24
+IVA energetico: 0.23
+Mon May 16 18:25:09 WEST 2022
+Consumo Total: 3.7022640000000004
+Obrigado por confiar na nossa empresa!
