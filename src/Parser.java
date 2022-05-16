@@ -145,7 +145,7 @@ public class Parser {
         if(currentHouse!=null){
             addHouse(currentHouse);
         }
-        System.out.println("Import Completed!");
+        System.out.println("Data successfully parsed, creating ambient...");
     }
 
 
