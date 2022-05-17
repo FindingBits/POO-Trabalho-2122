@@ -71,6 +71,56 @@ public class Controller {
         }
     }
 
+    public void create(String parse) throws ParserException {
+        String[] chunk = parse.split(",");
+        switch (chunk[0]) {
+            case "house":
+                getHouses().add(getParser().parseCasa(chunk[1]+","+chunk[2]+","+chunk[3]));
+                System.out.println("Added a new House!");
+                break;
+            case "provider":
+                getProviders().add(getParser().parseFornecedor(chunk[1]+","+chunk[2]+","+chunk[3]));
+                System.out.println("Added a new Provider!");
+                break;
+            case "device":
+                System.out.println("To do..");
+                break;
+        }
+    }
+
+    public void generateEnvironment() throws ParserException, DeviceExistsInDivision, IOException {
+        Scanner scanPostDefault = new Scanner(System.in);
+        String[] chunk;
+        do {
+            System.out.println("Type a ambient command: ");
+            String scanDefault = scanPostDefault.nextLine();
+            chunk = scanDefault.split(",");
+            if(chunk[0].equals("quit") && chunk[1].equals("ambient")) break;
+            switch (chunk[0]) {
+                case "advance":
+                    System.out.println("Previous time: " + getAmbient().getCalendar().toString() + "");
+                    getAmbient().advanceDays(Integer.parseInt(chunk[2]));
+                    System.out.println("Current time: " + getAmbient().getCalendar().toString() + "");
+                    break;
+                case "current":
+                    System.out.println("Current time: " + getAmbient().getCalendar().toString() + "");
+                    break;
+                case "create":
+                    System.out.println("Creating: " + chunk[1] + "");
+                    create(chunk[0]+","+chunk[2]+","+chunk[3]+","+chunk[4]);
+                    break;
+                case "generateInvoice":
+                    System.out.println("Generating invoice for: " + chunk[1] + " clients...");
+                    generateInvoice(chunk[1]);
+                    break;
+                default:
+                    System.out.println("Invalid ambient Command!");
+                    break;
+            }
+        } while (!chunk[0].equals("quit"));
+        System.out.println("Exiting ambient...");
+    }
+
     public void initializeControl() throws DeviceExistsInDivision, IOException, ParserException, DivisionExistsExeption {
         String choice = null;
         Scanner scan = new Scanner(System.in);
@@ -82,56 +132,20 @@ public class Controller {
                 case "info":
                     System.out.println("Realizado por:\n-> A94013 - Joao Guedes\n-> A91650 - Catarina Quintas\n-> A91681 - Pedro Martins\n");
                     break;
+                case "saveCurrent":
+                    System.out.println("To do..");
+                    break;
+                case "create":
+                    System.out.println("Creating empty environment...");
+                    generateEnvironment();
+                    break;
                 case "configDefault":
                     System.out.println("Using the group default config file.");
-
-                    parser.parse("configs/default.txt");
-                    setProviders(parser.getTempProviders());
-                    setHouses(houses=parser.getTempHouses());
-
-                    Scanner scanPostDefault = new Scanner(System.in);
-                    String[] chunk;
-                    do {
-                        System.out.println("Type a ambient command: ");
-                        String scanDefault = scanPostDefault.nextLine();
-                        chunk = scanDefault.split(",");
-                        if(chunk[0].equals("quit") && chunk[1].equals("ambient")) break;
-                        switch (chunk[0]) {
-                            case "advance":
-                                System.out.println("Previous time: " + getAmbient().getCalendar().toString() + "");
-                                getAmbient().advanceDays(Integer.parseInt(chunk[2]));
-                                System.out.println("Current time: " + getAmbient().getCalendar().toString() + "");
-                                break;
-                            case "current":
-                                System.out.println("Current time: " + getAmbient().getCalendar().toString() + "");
-                                break;
-                            case "create":
-                                System.out.println("Creating: " + chunk[1] + "");
-                                switch (chunk[1]) {
-                                    case "house":
-                                        getHouses().add(parser.parseCasa(chunk[2]+","+chunk[3]+","+chunk[4]));
-                                        System.out.println("Added a new House!");
-                                        break;
-                                    case "provider":
-                                        getProviders().add(parser.parseFornecedor(chunk[2]+","+chunk[3]+","+chunk[4]));
-                                        System.out.println("Added a new Provider!");
-                                        break;
-                                    case "device":
-                                        System.out.println("To do..");
-                                        break;
-                                }
-                                break;
-                            case "generateInvoice":
-                                System.out.println("Generating invoice for: " + chunk[1] + " clients...");
-                                generateInvoice(chunk[1]);
-                                break;
-                            default:
-                                System.out.println("Invalid ambient Command!");
-                                break;
-                        }
-                    } while (!chunk[0].equals("quit"));
-                    System.out.println("Exiting ambient...");
-                    break;
+                    System.out.println("Using this command replaces previous devices,houses,providers.");
+                    getParser().parse("configs/default.txt");
+                    setProviders(getParser().getTempProviders());
+                    setHouses(getParser().getTempHouses());
+                    generateEnvironment();
                 default:
                     System.out.println("Invalid project Command!");
                     break;
