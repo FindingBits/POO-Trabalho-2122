@@ -92,6 +92,27 @@ public class Controller {
 
     }
 
+    public void updateHouseStates(String owner,String typeAlter) throws ParserException {
+        try{
+            for (int i = 0; i < getHouses().size(); i++) {
+                if(Objects.equals(getHouses().get(i).getOwner(), owner)){
+                    if(Objects.equals(typeAlter, "OFF")){
+                        getHouses().get(i).turnAllOFF();
+                        System.out.println("Turned all off for: "+owner+" house!");
+                    }else if(Objects.equals(typeAlter, "ON")){
+                        getHouses().get(i).turnAllON();
+                        System.out.println("Turned all on for: "+owner+" house!");
+                    }
+                }
+            }
+            throw new HouseNotFoundException("House not found!");
+        }
+        catch (Exception e){
+            throw new ParserException("Error changing states in house!\nExtra:"+e.toString());
+        }
+
+    }
+
     public void create(String parse) throws ParserException, HouseNotFoundException, DeviceExistsInDivision, DivisionExistsExeption {
         String[] chunk = parse.split(",");
         switch (chunk[0]) {
@@ -109,10 +130,10 @@ public class Controller {
                     SmartBulb tempBulb=getParser().parseSmartBulb(chunk[2]+","+chunk[3]);
                     updateHouseInput(chunk[1],"addDev",chunk[2],tempBulb);
                 }else if(Objects.equals(chunk[1], "smartcamera")){
-                    SmartCamera tempCamera=getParser().parseSmartCamera(chunk[2]+","+chunk[3]+","+chunk[3]);
+                    SmartCamera tempCamera=getParser().parseSmartCamera(chunk[2]+","+chunk[3]);
                     updateHouseInput(chunk[1],"addDev",chunk[2],tempCamera);
                 }else if(Objects.equals(chunk[1], "smartspeaker")){
-                    SmartSpeaker tempSpeaker=getParser().parseSmartSpeaker(chunk[2]+","+chunk[3]);
+                    SmartSpeaker tempSpeaker=getParser().parseSmartSpeaker(chunk[2]+","+chunk[3]+","+chunk[4]);
                     updateHouseInput(chunk[1],"addDev",chunk[2],tempSpeaker);
                 }
                 break;
@@ -142,6 +163,14 @@ public class Controller {
                     break;
                 case "current":
                     System.out.println("Current time: " + getAmbient().getCalendar().toString() + "");
+                    break;
+                case "turnAllOff":
+                    System.out.println("[Turned all devices off] Current time: " + getAmbient().getCalendar().toString() + "");
+                    updateHouseStates(chunk[1],"OFF");
+                    break;
+                case "turnAllOn":
+                    System.out.println("[Turned all devices on] Current time: " + getAmbient().getCalendar().toString() + "");
+                    updateHouseStates(chunk[1],"ON");
                     break;
                 case "create":
                     System.out.println("Creating: " + chunk[1] + "");
