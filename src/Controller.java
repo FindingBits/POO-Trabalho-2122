@@ -71,24 +71,62 @@ public class Controller {
         }
     }
 
-    public void create(String parse) throws ParserException {
+    public void updateHouseInput(String owner,String typeAlter,String division,SmartDevice device) throws HouseNotFoundException, DivisionExistsExeption, DeviceExistsInDivision, ParserException {
+        try{
+            for (int i = 0; i < getHouses().size(); i++) {
+                if(Objects.equals(getHouses().get(i).getOwner(), owner)){
+                    if(Objects.equals(typeAlter, "addDiv")){
+                        getHouses().get(i).addDivision(division);
+                        System.out.println("Informaton updated!");
+                    }else if(Objects.equals(typeAlter, "addDev")){
+                        getHouses().get(i).addDevice(division,device);
+                        System.out.println("Informaton updated!");
+                    }
+                }
+            }
+            throw new HouseNotFoundException("House not found!");
+        }
+        catch (Exception e){
+            throw new ParserException("Error updating house!\nExtra:"+e.toString());
+        }
+
+    }
+
+    public void create(String parse) throws ParserException, HouseNotFoundException, DeviceExistsInDivision, DivisionExistsExeption {
         String[] chunk = parse.split(",");
         switch (chunk[0]) {
             case "house":
-                getHouses().add(getParser().parseCasa(chunk[1]+","+chunk[2]+","+chunk[3]));
+                getHouses().add(getParser().parseCasa(chunk[2]+","+chunk[3]+","+chunk[4]));
                 System.out.println("Added a new House!");
                 break;
             case "provider":
-                getProviders().add(getParser().parseFornecedor(chunk[1]+","+chunk[2]+","+chunk[3]));
+                getProviders().add(getParser().parseFornecedor(chunk[2]+","+chunk[3]+","+chunk[4]));
                 System.out.println("Added a new Provider!");
                 break;
             case "device":
-                System.out.println("To do..");
+                System.out.println("Creating device "+chunk[1]+"...");
+                if(Objects.equals(chunk[1], "smartbulb")){
+                    SmartBulb tempBulb=getParser().parseSmartBulb(chunk[2]+","+chunk[3]);
+                    updateHouseInput(chunk[1],"addDev",chunk[2],tempBulb);
+                }else if(Objects.equals(chunk[1], "smartcamera")){
+                    SmartCamera tempCamera=getParser().parseSmartCamera(chunk[2]+","+chunk[3]+","+chunk[3]);
+                    updateHouseInput(chunk[1],"addDev",chunk[2],tempCamera);
+                }else if(Objects.equals(chunk[1], "smartspeaker")){
+                    SmartSpeaker tempSpeaker=getParser().parseSmartSpeaker(chunk[2]+","+chunk[3]);
+                    updateHouseInput(chunk[1],"addDev",chunk[2],tempSpeaker);
+                }
+                break;
+            case "division":
+                System.out.println("Creating division "+chunk[2]+"...");
+                updateHouseInput(chunk[1],"addDiv",chunk[2],null);
+                break;
+            default:
+                System.out.println("Informaton provided not correct!");
                 break;
         }
     }
 
-    public void generateEnvironment() throws ParserException, DeviceExistsInDivision, IOException {
+    public void generateEnvironment() throws ParserException, DeviceExistsInDivision, IOException, HouseNotFoundException, DivisionExistsExeption {
         Scanner scanPostDefault = new Scanner(System.in);
         String[] chunk;
         do {
@@ -107,7 +145,7 @@ public class Controller {
                     break;
                 case "create":
                     System.out.println("Creating: " + chunk[1] + "");
-                    create(chunk[0]+","+chunk[2]+","+chunk[3]+","+chunk[4]);
+                    create(chunk[0]+","+chunk[1]+","+chunk[2]+","+chunk[3]+","+chunk[4]);
                     break;
                 case "generateInvoice":
                     System.out.println("Generating invoice for: " + chunk[1] + " clients...");
@@ -121,7 +159,7 @@ public class Controller {
         System.out.println("Exiting ambient...");
     }
 
-    public void initializeControl() throws DeviceExistsInDivision, IOException, ParserException, DivisionExistsExeption {
+    public void initializeControl() throws DeviceExistsInDivision, IOException, ParserException, DivisionExistsExeption, HouseNotFoundException {
         String choice = null;
         Scanner scan = new Scanner(System.in);
         do {
@@ -135,7 +173,7 @@ public class Controller {
                 case "saveCurrent":
                     System.out.println("To do..");
                     break;
-                case "create":
+                case "createNew":
                     System.out.println("Creating empty environment...");
                     generateEnvironment();
                     break;

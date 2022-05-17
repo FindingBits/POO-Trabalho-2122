@@ -174,7 +174,7 @@ public class Parser {
 
     }
 
-    private SmartBulb parseSmartBulb(String input) throws ParserException {
+    public SmartBulb parseSmartBulb(String input) throws ParserException {
         try {
             String[] chunk = input.split(",");
             SmartBulb.LightMode mode;
@@ -192,7 +192,7 @@ public class Parser {
         catch(Exception e){ throw new ParserException("Inconsistent bulb info, could not Parse!\nExtra information:"+e.toString()); }
     }
 
-    private SmartSpeaker parseSmartSpeaker(String input) throws ParserException {
+    public SmartSpeaker parseSmartSpeaker(String input) throws ParserException {
         try {
             String[] chunk = input.split(",");
             return new SmartSpeaker(generateFactoryID(),7,SmartDevice.Status.OFF,Integer.parseInt(chunk[0]),chunk[2],chunk[1]);
@@ -200,7 +200,7 @@ public class Parser {
         catch(Exception e){ throw new ParserException("Inconsistent speaker info, could not Parse!\nExtra information:"+e.toString()); }
     }
 
-    private SmartCamera parseSmartCamera(String input) throws ParserException {
+    public SmartCamera parseSmartCamera(String input) throws ParserException {
         try {
             String[] chunk = input.split(",");
             return new SmartCamera(generateFactoryID(),9,SmartDevice.Status.OFF,Integer.parseInt(chunk[0]),Integer.parseInt(chunk[1]));
