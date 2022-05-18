@@ -6,30 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-
 /*
-===============================================================================
-Preambulo /Legenda
-===============================================================================
-
+Guide to provided file:
 --Fornecedores
-
 Fornecedor:<NomeFornecedor>
-
--- Cada casa tem um proprietario unico com um nif unico, e usa um fornecedor existente
 Casa:<NomeProprietario>,<NifProprietario>,<NomeFornecedor>
-
--- Após cada casa, é listada uma sequência de divisões, cada uma seguida das devices que lá estão registadas
 currentDivisionEDevices:<currentDivision>,<Devices>
-
--- Os valores de consumo representam o consumo de 1 dia, em kWh
--- Tamanho define a quantidade de segundos de vídeo gerado pela SmartCamera
 SmartCamera:<Resolucao>,<Tamanho>,<Consumo>
-
--- Volume é um valor entre 0 a 100
 SmartSpeaker:<Volume>,<CanalRadio>,<Marca>,<Consumo>
-
--- Diametro é representado em cm
 SmartBulb:<Tonalidade>,<Diametro>,<Consumo>
  */
 public class Parser {
@@ -55,6 +39,11 @@ public class Parser {
         return FactoryIDs;
     }
 
+    /**
+     * manager for providers
+     * @param provider provider
+     * @return true/false if exists
+     */
     public boolean addProvider(FornecedorEnergia provider){
         if(this.tempProviders.contains(provider)){
             return true;
@@ -65,6 +54,12 @@ public class Parser {
         }
 
     }
+
+    /**
+     * manager for houses
+     * @param house houses
+     * @return true/false if exists
+     */
     public boolean addHouse(Casa house){
         if(this.tempHouses.contains(house)){
             return true;
@@ -76,6 +71,11 @@ public class Parser {
 
     }
 
+    /**
+     * manager for factoryIDs
+     * @param factoryID factoryID
+     * @return true/false if exists
+     */
     public boolean addFactoryID(String factoryID){
         if(this.FactoryIDs.contains(factoryID)){
             return true;
@@ -86,6 +86,11 @@ public class Parser {
         }
 
     }
+
+    /**
+     * generator for factory IDs
+     * @return factory ID
+     */
     public String generateFactoryID(){
         String charSelect = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder temp = new StringBuilder();
@@ -99,6 +104,14 @@ public class Parser {
         }
         return temp.toString();
     }
+
+    /**
+     * parser for text files (.txt) compatible with the app
+     * @param path pathToFile
+     * @throws ParserException ParserException
+     * @throws DivisionExistsExeption DivisionExistsExeption
+     * @throws DeviceExistsInDivision DeviceExistsInDivision
+     */
     public void parse(String path) throws ParserException, DivisionExistsExeption, DeviceExistsInDivision {
         List<String> lines = readFile(path);
         String[] startLine;
@@ -149,13 +162,24 @@ public class Parser {
     }
 
 
-
+    /**
+     * file reader
+     * @param nomeFich file name
+     * @return lines of file
+     * @throws ParserException Error reading line, could not Parse!
+     */
     public List<String> readFile(String nomeFich) throws ParserException {
         List<String> lines;
         try { lines = Files.readAllLines(Paths.get(nomeFich), StandardCharsets.UTF_8);return lines; }
         catch(IOException exc) { throw new ParserException("Error reading line, could not Parse!\nExtra information:"+exc.toString()); }
     }
 
+    /**
+     * parser for houses
+     * @param input house attributes
+     * @return the new house
+     * @throws ParserException Inconsistent info, could not Parse!
+     */
     public Casa parseCasa(String input) throws ParserException{
         try {
             String[] chunk = input.split(",");
@@ -164,7 +188,12 @@ public class Parser {
         catch(Exception e){ throw new ParserException("Inconsistent house info, could not Parse!\nExtra information:"+e.toString()); }
 
     }
-
+    /**
+     * parser for providers
+     * @param input provider attributes
+     * @return the new provider
+     * @throws ParserException Inconsistent info, could not Parse!
+     */
     public FornecedorEnergia parseFornecedor(String input) throws ParserException{
         try {
             String[] chunk = input.split(",");
@@ -173,7 +202,12 @@ public class Parser {
         catch(Exception e){ throw new ParserException("Inconsistent provider info, could not Parse!\nExtra information:"+e.toString()); }
 
     }
-
+    /**
+     * parser for SmartBulb
+     * @param input SmartBulb attributes
+     * @return the new SmartBulb
+     * @throws ParserException Inconsistent info, could not Parse!
+     */
     public SmartBulb parseSmartBulb(String input) throws ParserException {
         try {
             String[] chunk = input.split(",");
@@ -191,7 +225,12 @@ public class Parser {
         }
         catch(Exception e){ throw new ParserException("Inconsistent bulb info, could not Parse!\nExtra information:"+e.toString()); }
     }
-
+    /**
+     * parser for SmartSpeaker
+     * @param input SmartSpeaker attributes
+     * @return the new SmartSpeaker
+     * @throws ParserException Inconsistent info, could not Parse!
+     */
     public SmartSpeaker parseSmartSpeaker(String input) throws ParserException {
         try {
             String[] chunk = input.split(",");
@@ -199,11 +238,17 @@ public class Parser {
         }
         catch(Exception e){ throw new ParserException("Inconsistent speaker info, could not Parse!\nExtra information:"+e.toString()); }
     }
-
+    /**
+     * parser for SmartCamera
+     * @param input SmartCamera attributes
+     * @return the new SmartCamera
+     * @throws ParserException Inconsistent info, could not Parse!
+     */
     public SmartCamera parseSmartCamera(String input) throws ParserException {
         try {
             String[] chunk = input.split(",");
-            return new SmartCamera(generateFactoryID(),9,SmartDevice.Status.OFF,Integer.parseInt(chunk[0]),Integer.parseInt(chunk[1]));
+            String requiredString = chunk[0].substring(chunk[0].indexOf("x") + 1, chunk[0].indexOf(")"));
+            return new SmartCamera(generateFactoryID(),9,SmartDevice.Status.OFF,Integer.parseInt(requiredString),Integer.parseInt(chunk[1]));
         }
         catch(Exception e){ throw new ParserException("Inconsistent speaker info, could not Parse!\nExtra information:"+e.toString()); }
     }

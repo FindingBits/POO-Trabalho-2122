@@ -63,32 +63,4 @@ public class FornecedorEnergia {
                 ", tax=" + tax +
                 '}';
     }
-/*
-    public double houseBaseDailyCost(int index) throws HouseNotFoundException, DeviceExistsInDivision {
-        double total = 0;
-        if (index < this.houses.size()){
-            return getDailyEnergyCost() * this.houses.get(index).getTotalConsumption();
-        }
-        throw new HouseNotFoundException("House does not exist!");
-    }
-
-    public double houseTotalDailyCost(int index) throws HouseNotFoundException, DeviceExistsInDivision {
-        double total = 0;
-        if (index < this.houses.size()){
-            total = houseBaseDailyCost(index) * (1 + this.getTax());
-        }
-        else{
-            throw new HouseNotFoundException("House does not exist!");
-        }
-        return total;
-    }
-    public double PrecoDiaPorDispositivo(SmartDevice device) throws DeviceExistsInDivision {
-        double total = 0;
-        for (Casa c: this.houses){
-            if(Objects.equals(c.getDevice(device.getFactoryID()).getFactoryID(), device.getFactoryID())){
-                return c.getDeviceConsumption() * this.getDailyEnergyCost() * (1 + getTax());
-            }
-        }
-        throw new DeviceExistsInDivision("Device does not exist in the home!");
-    }*/
 }

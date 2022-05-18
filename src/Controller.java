@@ -51,6 +51,12 @@ public class Controller {
         this.houses=new ArrayList<Casa>();
     }
 
+    /**
+     * generates invoices for the provided provider
+     * @param provider provided provider
+     * @throws DeviceExistsInDivision DeviceExistsInDivision
+     * @throws IOException IOException
+     */
     public void generateInvoice(String provider) throws DeviceExistsInDivision, IOException {
         FornecedorEnergia forn=null;
         for (int i = 0; i < getProviders().size(); i++) {
@@ -64,13 +70,24 @@ public class Controller {
         }else{
             for (int i = 0; i < getHouses().size(); i++) {
                 if(Objects.equals(getHouses().get(i).getProvider(), provider)){
-                    Invoice inv = new Invoice(getAmbient().getCalendar(),forn,houses.get(i));
+                    Invoice inv = new Invoice(getAmbient(),forn,houses.get(i));
                 }
             }
             System.out.println("Finished generating invoice for: " + provider + " clients!");
         }
     }
 
+    /**
+     * adds a house device or division
+     * @param owner house
+     * @param typeAlter addDiv/addDev
+     * @param division division
+     * @param device house device/null
+     * @throws HouseNotFoundException HouseNotFoundException
+     * @throws DivisionExistsExeption DivisionExistsExeption
+     * @throws DeviceExistsInDivision DeviceExistsInDivision
+     * @throws ParserException Error updating house!
+     */
     public void updateHouseInput(String owner,String typeAlter,String division,SmartDevice device) throws HouseNotFoundException, DivisionExistsExeption, DeviceExistsInDivision, ParserException {
         try{
             for (int i = 0; i < getHouses().size(); i++) {
@@ -84,7 +101,6 @@ public class Controller {
                     }
                 }
             }
-            throw new HouseNotFoundException("House not found!");
         }
         catch (Exception e){
             throw new ParserException("Error updating house!\nExtra:"+e.toString());
@@ -92,6 +108,12 @@ public class Controller {
 
     }
 
+    /**
+     * update the Status (ON/OFF) of all devices in the home
+     * @param owner house
+     * @param typeAlter OFF/ON
+     * @throws ParserException Error changing states in house!
+     */
     public void updateHouseStates(String owner,String typeAlter) throws ParserException {
         try{
             for (int i = 0; i < getHouses().size(); i++) {
@@ -105,7 +127,6 @@ public class Controller {
                     }
                 }
             }
-            throw new HouseNotFoundException("House not found!");
         }
         catch (Exception e){
             throw new ParserException("Error changing states in house!\nExtra:"+e.toString());
@@ -113,15 +134,23 @@ public class Controller {
 
     }
 
+    /**
+     * controller to subdivide operations to all creating type functions
+     * @param parse full string command
+     * @throws ParserException ParserException
+     * @throws HouseNotFoundException HouseNotFoundException
+     * @throws DeviceExistsInDivision DeviceExistsInDivision
+     * @throws DivisionExistsExeption DivisionExistsExeption
+     */
     public void create(String parse) throws ParserException, HouseNotFoundException, DeviceExistsInDivision, DivisionExistsExeption {
         String[] chunk = parse.split(",");
         switch (chunk[0]) {
             case "house":
-                getHouses().add(getParser().parseCasa(chunk[2]+","+chunk[3]+","+chunk[4]));
+                getHouses().add(getParser().parseCasa(chunk[1]+","+chunk[2]+","+chunk[3]));
                 System.out.println("Added a new House!");
                 break;
             case "provider":
-                getProviders().add(getParser().parseFornecedor(chunk[2]+","+chunk[3]+","+chunk[4]));
+                getProviders().add(getParser().parseFornecedor(chunk[1]+","+chunk[2]+","+chunk[3]));
                 System.out.println("Added a new Provider!");
                 break;
             case "device":
@@ -147,6 +176,14 @@ public class Controller {
         }
     }
 
+    /**
+     * generates the full environment of the program
+     * @throws ParserException ParserException
+     * @throws DeviceExistsInDivision DeviceExistsInDivision
+     * @throws IOException IOException
+     * @throws HouseNotFoundException HouseNotFoundException
+     * @throws DivisionExistsExeption DivisionExistsExeption
+     */
     public void generateEnvironment() throws ParserException, DeviceExistsInDivision, IOException, HouseNotFoundException, DivisionExistsExeption {
         Scanner scanPostDefault = new Scanner(System.in);
         String[] chunk;
@@ -174,7 +211,7 @@ public class Controller {
                     break;
                 case "create":
                     System.out.println("Creating: " + chunk[1] + "");
-                    create(chunk[0]+","+chunk[1]+","+chunk[2]+","+chunk[3]+","+chunk[4]);
+                    create(chunk[1]+","+chunk[2]+","+chunk[3]+","+chunk[4]+","+chunk[5]);
                     break;
                 case "generateInvoice":
                     System.out.println("Generating invoice for: " + chunk[1] + " clients...");
@@ -188,6 +225,14 @@ public class Controller {
         System.out.println("Exiting ambient...");
     }
 
+    /**
+     * generates the control for the program to run
+     * @throws DeviceExistsInDivision DeviceExistsInDivision
+     * @throws IOException IOException
+     * @throws ParserException ParserException
+     * @throws DivisionExistsExeption DivisionExistsExeption
+     * @throws HouseNotFoundException HouseNotFoundException
+     */
     public void initializeControl() throws DeviceExistsInDivision, IOException, ParserException, DivisionExistsExeption, HouseNotFoundException {
         String choice = null;
         Scanner scan = new Scanner(System.in);
@@ -210,6 +255,17 @@ public class Controller {
                     System.out.println("Using the group default config file.");
                     System.out.println("Using this command replaces previous devices,houses,providers.");
                     getParser().parse("configs/default.txt");
+                    setProviders(getParser().getTempProviders());
+                    setHouses(getParser().getTempHouses());
+                    generateEnvironment();
+                case "configLoad":
+                    System.out.println("Using a provided config file.");
+                    System.out.println("Using this command replaces previous devices,houses,providers.");
+                    System.out.println("Type a file name:");
+                    String choiceLoad = null;
+                    Scanner scanLoad = new Scanner(System.in);
+                    choiceLoad = scanLoad.nextLine();
+                    getParser().parse("configs/"+choiceLoad);
                     setProviders(getParser().getTempProviders());
                     setHouses(getParser().getTempHouses());
                     generateEnvironment();

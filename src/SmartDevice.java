@@ -58,12 +58,20 @@ public class SmartDevice {
         this.mCost = mCost;
     }
 
+    /**
+     * turn a device ON
+     * @param device device
+     */
     public static void turnON(SmartDevice device){
         if(device.getStatus()==SmartDevice.Status.OFF){
             device.setStatus(SmartDevice.Status.ON);
             device.setStart(System.currentTimeMillis());
         }
     }
+    /**
+     * turn a device OFF
+     * @param device device
+     */
     public static void turnOFF(SmartDevice device){
         if(device.getStatus()==SmartDevice.Status.ON){
             device.setStatus(SmartDevice.Status.OFF);

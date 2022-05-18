@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Invoice {
     private String code;
-    private Date date;
+    private Ambient amb;
     private double consumoTotal;
     private FornecedorEnergia provider;
     private Casa house;
@@ -22,12 +22,9 @@ public class Invoice {
     }
 
     public Date getDate() {
-        return date;
+        return amb.getCalendar();
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
 
     public double getConsumoTotal() {
         return consumoTotal;
@@ -61,19 +58,23 @@ public class Invoice {
         this.codeIDs = codeIDs;
     }
 
-    public Invoice(Date date, FornecedorEnergia provider, Casa house) throws DeviceExistsInDivision, IOException {
+    public Invoice(Ambient amb, FornecedorEnergia provider, Casa house) throws DeviceExistsInDivision, IOException {
         this.codeIDs=new ArrayList<String>();
         this.code=generateInvoiceCode();
-        this.consumoTotal=house.getTotalConsumption()*provider.getTax()*provider.getDailyEnergyCost();
-        this.date = date;
+        this.consumoTotal=house.getTotalConsumption()*provider.getTax()*provider.getDailyEnergyCost()*amb.getElapsed()/10;
+        this.amb = amb;
         this.provider = provider;
         this.house = house;
         createInvoice();
     }
 
+    /**
+     * generator for the invoice
+     * @throws IOException Error creating invoice file!
+     */
     public void createInvoice() throws IOException {
         try{
-            List<String> lines = Arrays.asList("FATURA","Codigo: "+getCode(),getProvider().getCompany(),"Exm(o)(a): "+getHouse().getOwner(),"NIF: "+getHouse().getNIF(),"Custo diario energetico: "+getProvider().getDailyEnergyCost(),"IVA energetico: "+getProvider().getTax(),getDate().toString(),"Consumo Total: "+getConsumoTotal(), "Obrigado por confiar na nossa empresa!");
+            List<String> lines = Arrays.asList("FATURA","Codigo: "+getCode(),getProvider().getCompany(),"Exm(o)(a): "+getHouse().getOwner(),"NIF: "+getHouse().getNIF(),"Custo diario energetico (kwh): "+getProvider().getDailyEnergyCost(),"IVA energetico: "+getProvider().getTax(),"Periodo (comeco): "+amb.getStart().toString(),"Periodo (termino): "+getDate().toString(),"Consumo Total (Euros): "+String.format("%.2f", getConsumoTotal()), "Obrigado por confiar na nossa empresa!");
             Path file = Paths.get("invoices/"+code+".txt");
             Files.write(file, lines, StandardCharsets.UTF_8);
         }
@@ -83,6 +84,11 @@ public class Invoice {
 
     }
 
+    /**
+     * invoice codes manager
+     * @param codeID invoice codes
+     * @return true/false if exists or not
+     */
     public boolean addCodeID(String codeID) {
         if (this.codeIDs.contains(codeID)) {
             return true;
@@ -91,6 +97,11 @@ public class Invoice {
             return false;
         }
     }
+
+    /**
+     * generate invoice codes
+     * @return invoice code
+     */
     public String generateInvoiceCode(){
         String charSelect = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder temp = new StringBuilder();

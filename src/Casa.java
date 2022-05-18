@@ -72,6 +72,11 @@ public class Casa{
                 '}';
     }
 
+    /**
+     * Adds a division to the house
+     * @param division division to the house
+     * @throws DivisionExistsExeption Division already exists!
+     */
     public void addDivision(String division) throws DivisionExistsExeption{
         for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()){
             if(Objects.equals(entry.getKey(),division)){
@@ -81,6 +86,12 @@ public class Casa{
         divisions.put(division,new ArrayList<SmartDevice>());
     }
 
+    /**
+     * Adds a device to the provided division
+     * @param division division to the house
+     * @param device device to the house
+     * @throws DeviceExistsInDivision Device already exists in Division!
+     */
     public void addDevice(String division,SmartDevice device) throws DeviceExistsInDivision{
         for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()) {
             for (int i = 0; i < entry.getValue().size(); i++) {
@@ -124,8 +135,10 @@ public class Casa{
         throw new DeviceExistsInDivision("Device doesn't exist in the home!");
     }
 
-    
 
+    /**
+     * turns all the devices in the home on
+     */
     public void turnAllON(){
         for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()){
             for (int i = 0; i < entry.getValue().size(); i++){
@@ -133,6 +146,9 @@ public class Casa{
             }
         }
     }
+    /**
+     * turns all the devices in the home on
+     */
     public void turnAllOFF(){
         for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()){
             for (int i = 0; i < entry.getValue().size(); i++){
@@ -140,6 +156,11 @@ public class Casa{
             }
         }
     }
+
+    /**
+     * turns a specific device in the home on
+     * @param factoryID specific device
+     */
     public void turnSpecificON(String factoryID){
         for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()) {
             for (int i = 0; i < entry.getValue().size(); i++) {
@@ -149,6 +170,10 @@ public class Casa{
         }
     }
 
+    /**
+     * turns a specific device in the home off
+     * @param factoryID specific device
+     */
     public void turnSpecificOFF(String factoryID){
         for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()) {
             for (int i = 0; i < entry.getValue().size(); i++) {
@@ -158,11 +183,21 @@ public class Casa{
         }
     }
 
+    /**
+     * gets the total consuption in kwh/day in the house
+     * @return total consuption in kwh/day in the house
+     * @throws DeviceExistsInDivision Device not available!
+     */
     public double getTotalConsumption() throws DeviceExistsInDivision {
         double total=0;
         for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()) {
             for (int i = 0; i < entry.getValue().size(); i++) {
-                total += this.getDevice(entry.getValue().get(i).getFactoryID()).getDailyConsumption();
+                if(entry.getValue().get(i).getStatus()==SmartDevice.Status.ON){
+                    total += this.getDevice(entry.getValue().get(i).getFactoryID()).getDailyConsumption();
+                }
+                else{
+                    total += 0;
+                }
             }
         }
         return total;

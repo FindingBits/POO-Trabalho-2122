@@ -1,0 +1,11 @@
+FATURA
+Codigo: 8X3D7
+Iberdrola
+Exm(o)(a): Vicente de Carvalho Castro
+NIF: 365597405
+Custo diario energetico (kwh): 0.26
+IVA energetico: 0.23
+Periodo (comeco): Wed May 18 15:42:00 WEST 2022
+Periodo (termino): Thu Jun 02 15:42:00 WEST 2022
+Consumo Total (Euros): 51.69
+Obrigado por confiar na nossa empresa!

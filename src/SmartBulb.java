@@ -12,6 +12,11 @@ public class SmartBulb extends SmartDevice{
     private double dimension;
     protected double dailyConsumption;
 
+    /**
+     * compute the consumption based on the light mode
+     * @param mode LightMode
+     * @return the consumption
+     */
     private double auxConsumption(LightMode mode){
         double aux=0;
         switch(mode){
