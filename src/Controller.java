@@ -1,4 +1,8 @@
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 
@@ -168,6 +172,12 @@ public class Controller {
 
     }
 
+    public void generateFile() throws IOException {
+        List<String> lines = Arrays.asList("Ficheiro de leitura.","Fornecedores:",getProviders().stream().toList().toString(),"Casas:",getHouses().stream().toList().toString(), "SmartDevices, SmartHouses e Controlo/Eficiencia Energetica");
+        Path file = Paths.get("configs/save.txt");
+        Files.write(file, lines, StandardCharsets.UTF_8);
+    }
+
     /**
      * controller to subdivide operations to all creating type functions
      * @param parse full string command
@@ -286,7 +296,8 @@ public class Controller {
                     System.out.println("Realizado por:\n-> A94013 - Joao Guedes\n-> A91650 - Catarina Quintas\n-> A91681 - Pedro Martins\n");
                     break;
                 case "saveCurrent":
-                    System.out.println("To do..");
+                    System.out.println("Saving read by user only file...");
+                    generateFile();
                     break;
                 case "createNew":
                     System.out.println("Creating empty environment...");
