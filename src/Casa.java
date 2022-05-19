@@ -189,18 +189,23 @@ public class Casa{
      * @throws DeviceExistsInDivision Device not available!
      */
     public double getTotalConsumption() throws DeviceExistsInDivision {
-        double total=0;
-        for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()) {
-            for (int i = 0; i < entry.getValue().size(); i++) {
-                if(entry.getValue().get(i).getStatus()==SmartDevice.Status.ON){
-                    total += this.getDevice(entry.getValue().get(i).getFactoryID()).getDailyConsumption();
-                }
-                else{
-                    total += 0;
+        try{
+            double total=0;
+            for (HashMap.Entry<String, ArrayList<SmartDevice>> entry : this.getDivisions().entrySet()) {
+                for (int i = 0; i < entry.getValue().size(); i++) {
+                    if(entry.getValue().get(i).getStatus()==SmartDevice.Status.ON){
+                        total += this.getDevice(entry.getValue().get(i).getFactoryID()).getDailyConsumption();
+                    }
+                    else{
+                        total += 0;
+                    }
                 }
             }
+            return total;
         }
-        return total;
+        catch(Exception e){
+            throw new DeviceExistsInDivision("Error reading device!\nExtra:"+e.toString());
+        }
     }
 
 

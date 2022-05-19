@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Controller {
@@ -49,6 +46,43 @@ public class Controller {
         this.parser = new Parser();
         this.providers=new ArrayList<FornecedorEnergia>();
         this.houses=new ArrayList<Casa>();
+    }
+
+    public FornecedorEnergia getProvider(String name){
+        for (int i = 0; i < getProviders().size(); i++) {
+            if(Objects.equals(getProviders().get(i).getCompany(), name)){
+                return getProviders().get(i);
+            }
+        }
+        return null;
+    }
+
+    public Casa mostExpensiveHouse() throws DeviceExistsInDivision {
+        if(getAmbient().getElapsed()==0){
+            System.out.println("Time must be advanced for the mostExpensiveHouse calculation to work!");
+            return null;
+        }
+        double c=getHouses().get(0).getTotalConsumption()*getProvider(getHouses().get(0).getProvider()).getTax()*getProvider(getHouses().get(0).getProvider()).getDailyEnergyCost()*getAmbient().getElapsed()/10;
+        int j=0;
+        for(int i=1;i< getHouses().size();i++){
+            if((getHouses().get(i).getTotalConsumption()*getProvider(getHouses().get(i).getProvider()).getTax()*getProvider(getHouses().get(i).getProvider()).getDailyEnergyCost()*getAmbient().getElapsed()/10)>c){
+                c=getHouses().get(i).getTotalConsumption()*getProvider(getHouses().get(i).getProvider()).getTax()*getProvider(getHouses().get(i).getProvider()).getDailyEnergyCost()*getAmbient().getElapsed()/10;
+                j=i;
+            }
+        }
+        return getHouses().get(j);
+    }
+
+    public FornecedorEnergia mostRentableProvider(){
+        double c=getProviders().get(0).getTax()+getProviders().get(0).getDailyEnergyCost();
+        int j=0;
+        for(int i=1;i< getProviders().size();i++){
+            if((getProviders().get(i).getTax()+getProviders().get(i).getDailyEnergyCost())>c){
+                c=getProviders().get(i).getTax()+getProviders().get(i).getDailyEnergyCost();
+                j=i;
+            }
+        }
+        return getProviders().get(j);
     }
 
     /**
@@ -200,6 +234,13 @@ public class Controller {
                     break;
                 case "current":
                     System.out.println("Current time: " + getAmbient().getCalendar().toString() + "");
+                    break;
+                case "stats":
+                    System.out.println("Current time: " + getAmbient().getCalendar().toString() + "");
+                    System.out.println("Creating: statistics");
+                    System.out.println("Most Expensive House: "+mostExpensiveHouse());
+                    System.out.println("Most Rentable Provider (by tax and daily cost): "+mostRentableProvider());
+                    System.out.println("To review invoices check 'invoices' folder after generating invoices!");
                     break;
                 case "turnAllOff":
                     System.out.println("[Turned all devices off] Current time: " + getAmbient().getCalendar().toString() + "");

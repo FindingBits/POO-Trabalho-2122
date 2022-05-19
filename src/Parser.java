@@ -126,6 +126,7 @@ public class Parser {
                     break;
                 case "Casa":
                     if(currentHouse!=null){
+                        currentHouse.turnAllON();
                         addHouse(currentHouse);
                     }
                     currentHouse = parseCasa(startLine[1]);
@@ -156,6 +157,7 @@ public class Parser {
             counter+=1;
         }
         if(currentHouse!=null){
+            currentHouse.turnAllON();
             addHouse(currentHouse);
         }
         System.out.println("Data successfully parsed, creating ambient...");
