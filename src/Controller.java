@@ -61,6 +61,11 @@ public class Controller {
         return null;
     }
 
+    /**
+     * Statistics: most expensive house to run
+     * @return the most expensive house to run
+     * @throws DeviceExistsInDivision device with error
+     */
     public Casa mostExpensiveHouse() throws DeviceExistsInDivision {
         if(getAmbient().getElapsed()==0){
             System.out.println("Time must be advanced for the mostExpensiveHouse calculation to work!");
@@ -77,6 +82,10 @@ public class Controller {
         return getHouses().get(j);
     }
 
+    /**
+     * Statistics: most rentable provider
+     * @return the most rentable provider
+     */
     public FornecedorEnergia mostRentableProvider(){
         double c=getProviders().get(0).getTax()+getProviders().get(0).getDailyEnergyCost();
         int j=0;
@@ -134,6 +143,7 @@ public class Controller {
                         getHouses().get(i).addDivision(division);
                         System.out.println("Informaton updated!");
                     }else if(Objects.equals(typeAlter, "addDev")){
+                        System.out.println("Informaton updating...");
                         getHouses().get(i).addDevice(division,device);
                         System.out.println("Informaton updated!");
                     }
@@ -200,14 +210,15 @@ public class Controller {
             case "device":
                 System.out.println("Creating device "+chunk[1]+"...");
                 if(Objects.equals(chunk[1], "smartbulb")){
-                    SmartBulb tempBulb=getParser().parseSmartBulb(chunk[2]+","+chunk[3]);
-                    updateHouseInput(chunk[1],"addDev",chunk[2],tempBulb);
+                    System.out.println("Creating...");
+                    SmartBulb tempBulb=getParser().parseSmartBulb(chunk[4]+","+chunk[5]);
+                    updateHouseInput(chunk[2],"addDev",chunk[3],tempBulb);
                 }else if(Objects.equals(chunk[1], "smartcamera")){
-                    SmartCamera tempCamera=getParser().parseSmartCamera(chunk[2]+","+chunk[3]);
-                    updateHouseInput(chunk[1],"addDev",chunk[2],tempCamera);
+                    SmartCamera tempCamera=getParser().parseSmartCamera(chunk[4]+","+chunk[5]);
+                    updateHouseInput(chunk[2],"addDev",chunk[3],tempCamera);
                 }else if(Objects.equals(chunk[1], "smartspeaker")){
-                    SmartSpeaker tempSpeaker=getParser().parseSmartSpeaker(chunk[2]+","+chunk[3]+","+chunk[4]);
-                    updateHouseInput(chunk[1],"addDev",chunk[2],tempSpeaker);
+                    SmartSpeaker tempSpeaker=getParser().parseSmartSpeaker(chunk[4]+","+chunk[5]+",Generic");
+                    updateHouseInput(chunk[2],"addDev",chunk[3],tempSpeaker);
                 }
                 break;
             case "division":
@@ -262,7 +273,7 @@ public class Controller {
                     break;
                 case "create":
                     System.out.println("Creating: " + chunk[1] + "");
-                    create(chunk[1]+","+chunk[2]+","+chunk[3]+","+chunk[4]+","+chunk[5]);
+                    create(chunk[1]+","+chunk[2]+","+chunk[3]+","+chunk[4]+","+chunk[5]+","+chunk[6]);
                     break;
                 case "generateInvoice":
                     System.out.println("Generating invoice for: " + chunk[1] + " clients...");

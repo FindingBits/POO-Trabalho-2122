@@ -1,0 +1,11 @@
+FATURA
+Codigo: P5EA4
+EDP Comercial
+Exm(o)(a): Joao Guedes
+NIF: 234567890
+Custo diario energetico (kwh): 0.24
+IVA energetico: 0.23
+Periodo (comeco): Fri May 20 14:02:45 WEST 2022
+Periodo (termino): Sat Jun 04 14:02:45 WEST 2022
+Consumo Total (Euros): 0.00
+Obrigado por confiar na nossa empresa!
