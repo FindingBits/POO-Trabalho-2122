@@ -87,6 +87,10 @@ public class Controller {
      * @return the most rentable provider
      */
     public FornecedorEnergia mostRentableProvider(){
+        if(getAmbient().getElapsed()==0){
+            System.out.println("Time must be advanced for the mostRentableProvider calculation to work!");
+            return null;
+        }
         double c=getProviders().get(0).getTax()+getProviders().get(0).getDailyEnergyCost();
         int j=0;
         for(int i=1;i< getProviders().size();i++){
